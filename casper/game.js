@@ -10,7 +10,7 @@ casper.waitForUrl(/Login.aspx/, function() {
 
 casper.waitForUrl('http://xtreme.en.cx/GameDetails.aspx?gid=50046', function() {
     //res.send(JSON.stringify(this.getElementInfo('#tblUserBox')));
-    require('uitls').dump(this.getElementInfo('#tblUserBox'));
+    require('utils').dump(this.getElementInfo('#tblUserBox'));
 });
 
 casper.run(function() {
