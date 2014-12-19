@@ -1,42 +1,60 @@
-var links = [];
-var casper = require('casper').create();
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
-function getLinks() {
-    var links = document.querySelectorAll('.serp-item__title-link');
-    return Array.prototype.map.call(links, function(e) {
-        return e.getAttribute('href');
+var routes = require('./routes/index');
+var users = require('./routes/users');
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
 }
 
-casper.start('http://xtreme.en.cx/GameDetails.aspx?gid=50046', function() {
-    this.click('#boxUser table tr:first-child a');
-    //this.echo(JSON.stringify(this.getFormValues('form.search')));
-    //this.click('button[type=submit]')
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 
-// casper.start('http://google.fr/', function() {
-//     // search for 'casperjs' from google form
-//     this.fill('form[action="/search"]', { q: 'casperjs' });
-//     this.echo(this.getFormValues('form').q);
-//     //require('utils').dump(this.getElementsInfo('input'));
-//     //this.echo(this.getCurrentUrl());
-// });
-
-casper.waitForUrl(/Login.aspx/, function() {
-    this.fill('#formMain', { Login: 'login', 'Password': 'pass' }, true);
-});
-
-casper.waitForUrl('http://xtreme.en.cx/GameDetails.aspx?gid=50046', function() {
-    require('utils').dump(this.getElementInfo('#tblUserBox'));
-});
-
-casper.run(function() {
-    //this.echo(this.getCurrentUrl());
-    //require('utils').dump(this.getElementInfo('input#text'));
-    // echo results in some pretty fashion
-    // this.echo(links.length + ' links found:');
-    // this.echo(' - ' + links.join('\n - '));
-
-    this.exit();
-});
+module.exports = app;
