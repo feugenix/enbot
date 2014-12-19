@@ -4,7 +4,7 @@ var express = require('express'),
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
+    //res.render('index', { title: 'Express' });
 
     var lchecker = execFile('casperjs', ['../casper/game.js'], function(error, stdout, stderr) {
         if (error || stderr)
