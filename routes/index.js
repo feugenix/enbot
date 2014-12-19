@@ -9,8 +9,8 @@ router.get('/', function(req, res) {
     var lchecker = execFile('casperjs', ['../casper/game.js'], function(error, stdout, stderr) {
         if (error || stderr)
             res.send('error' + (error || stderr));
-
-        res.send(stdout);
+        else
+            res.send(stdout);
     });
 });
 
