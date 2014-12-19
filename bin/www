@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 var debug = require('debug')('enbot');
 var app = require('../app');
-var casper = require('casper').create();
 
 app.set('port', process.env.PORT || 3000);
 

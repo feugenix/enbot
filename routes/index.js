@@ -1,25 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var casper = require('casper').create();
+var express = require('express'),
+    router = express.Router(),
+    execFile = require('child_process').execFile;
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    //res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Express' });
 
-    casper.start('http://xtreme.en.cx/GameDetails.aspx?gid=50046', function() {
-        this.click('#boxUser table tr:first-child a');
-    });
+    var lchecker = execFile('casperjs', ['../casper/game.js'], function(error, stdout, stderr) {
+        if (error || stderr)
+            res.send('error' + (error || stderr));
 
-    casper.waitForUrl(/Login.aspx/, function() {
-        this.fill('#formMain', { Login: 'login', 'Password': 'pass' }, true);
-    });
-
-    casper.waitForUrl('http://xtreme.en.cx/GameDetails.aspx?gid=50046', function() {
-        res.send(JSON.stringify(this.getElementInfo('#tblUserBox')));
-    });
-
-    casper.run(function() {
-        this.exit();
+        res.send(stdout);
     });
 });
 
