@@ -1,1 +1,20 @@
-package.json
+{
+    "name": "enbot",
+    "version": "0.0.1",
+    "description": "noisy bot for levels",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/feugenix/enbot.git"
+    },
+    "engines": {
+        "node": "0.10"
+    },
+    "dependencies": {
+        "casperjs": "1.1.0-beta3"
+    },
+    "devDependencies": {
+        "jscs": "1.5.9",
+        "jshint": "2.1.4"
+    },
+    "private": true
+}
