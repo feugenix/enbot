@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 
     var config = req.app.get('config');
 
-    var lchecker = exec('casperjs casper/game.js ' + config.LOGIN + ' ' + config.PASS, function(error, stdout, stderr) {
+    var lchecker = exec('casperjs casper/game.js ' + config.login + ' ' + config.pass, function(error, stdout, stderr) {
         if (error || stderr)
             res.send('error' + (error || stderr));
         else
