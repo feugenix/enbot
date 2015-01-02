@@ -26,6 +26,6 @@
         "express-generator": "~4.9.0"
     },
     "scripts": {
-        "start": "casperjs ./bin/www"
+        "start": "node ./bin/www"
     }
 }

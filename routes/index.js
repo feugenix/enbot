@@ -6,7 +6,9 @@ var express = require('express'),
 router.get('/', function(req, res) {
     //res.render('index', { title: 'Express' });
 
-    var lchecker = exec('casperjs casper/game.js', function(error, stdout, stderr) {
+    var config = req.app.get('config');
+
+    var lchecker = exec('casperjs casper/game.js ' + config.LOGIN + ' ' + config.PASS, function(error, stdout, stderr) {
         if (error || stderr)
             res.send('error' + (error || stderr));
         else
